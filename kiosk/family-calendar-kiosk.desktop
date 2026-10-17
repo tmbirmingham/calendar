@@ -1,0 +1,13 @@
+# Autostart entry that opens the calendar full-screen after login.
+# Install:
+#   mkdir -p ~/.config/autostart
+#   cp kiosk/family-calendar-kiosk.desktop ~/.config/autostart/
+#   # edit Exec= if the repo is not at ~/calendar
+[Desktop Entry]
+Type=Application
+Name=Family Calendar Kiosk
+Comment=Open the family wall calendar full-screen
+Exec=sh -c '"$HOME/calendar/kiosk/start-kiosk.sh"'
+X-GNOME-Autostart-enabled=true
+X-GNOME-Autostart-Delay=5
+NoDisplay=false
