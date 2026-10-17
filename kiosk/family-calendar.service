@@ -1,0 +1,28 @@
+# systemd *user* service that runs the calendar app in the background.
+# Install (no sudo needed):
+#   mkdir -p ~/.config/systemd/user
+#   cp kiosk/family-calendar.service ~/.config/systemd/user/
+#   # edit WorkingDirectory / ExecStart below if your paths differ
+#   systemctl --user daemon-reload
+#   systemctl --user enable --now family-calendar.service
+# Logs: journalctl --user -u family-calendar -f
+
+[Unit]
+Description=Family wall calendar (Next.js app)
+After=network-online.target
+
+[Service]
+Type=simple
+# %h is your home directory. Change if the repo lives elsewhere.
+WorkingDirectory=%h/calendar
+Environment=NODE_ENV=production
+# Optional: slideshow folder (defaults to <repo>/photos)
+# Environment=PHOTOS_DIR=%h/Pictures/Family
+# Use the full path from `which npm` (it differs if Node came from nvm).
+# -H 127.0.0.1 keeps the app reachable from this computer only.
+ExecStart=/usr/bin/npm start -- -H 127.0.0.1 -p 3000
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
